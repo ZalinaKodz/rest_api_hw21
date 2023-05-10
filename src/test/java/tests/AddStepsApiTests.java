@@ -45,7 +45,7 @@ public class AddStepsApiTests extends TestBase {
                     .spec(request)
                     .header("X-XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34")
                     .cookies("XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34",
-                            "ALLURE_TESTOPS_SESSION", "c684f3d6-c5c7-4e18-81dd-211c7a897ea5")
+                            "ALLURE_TESTOPS_SESSION", "b378345b-7bf9-41fd-8cf7-a15551945520")
                     .body(caseBody)
                     .queryParam("projectId", projectId)
                     .when()
@@ -67,7 +67,7 @@ public class AddStepsApiTests extends TestBase {
                         .spec(request)
                         .header("X-XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34")
                         .cookies("XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34",
-                                "ALLURE_TESTOPS_SESSION", "c684f3d6-c5c7-4e18-81dd-211c7a897ea5")
+                                "ALLURE_TESTOPS_SESSION", "b378345b-7bf9-41fd-8cf7-a15551945520")
                         .body(requestBody)
                         .when()
                         .post("/api/rs/testcase/" + testCaseID + "/scenario")

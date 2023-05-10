@@ -44,7 +44,7 @@ public class ChangeTestCaseTest {
                     .spec(Specs.request)
                     .header("X-XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34")
                     .cookies("XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34",
-                            "ALLURE_TESTOPS_SESSION", "98f44c5a-da6b-4c40-a341-d038b07df73c")
+                            "ALLURE_TESTOPS_SESSION", "b378345b-7bf9-41fd-8cf7-a15551945520")
                     .body(caseBody)
                     .queryParam("projectId", projectId)
                     .when()
@@ -63,7 +63,7 @@ public class ChangeTestCaseTest {
                         .spec(Specs.request)
                         .header("X-XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34")
                         .cookies("XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34",
-                                "ALLURE_TESTOPS_SESSION", "98f44c5a-da6b-4c40-a341-d038b07df73c")
+                                "ALLURE_TESTOPS_SESSION", "b378345b-7bf9-41fd-8cf7-a15551945520")
                         .body(caseBody)
                         .queryParam("projectId", projectId)
                         .queryParam("leafId", testCaseID)
