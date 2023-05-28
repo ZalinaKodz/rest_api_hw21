@@ -11,7 +11,7 @@ public interface WebConfig extends Config {
 
     @Key("browser")
     @DefaultValue("chrome")
-    Browser getBrowser();
+    String getBrowser();
 
     @Key("browserVersion")
     String getBrowserVersion();
@@ -21,7 +21,7 @@ public interface WebConfig extends Config {
     String getBrowserSize();
 
     @Key("baseUrl")
-    @DefaultValue("https://github.com")
+    @DefaultValue("https://allure.autotests.cloud")
     String getBaseUrl();
 
     @Key("isRemote")

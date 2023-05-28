@@ -1,29 +1,23 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
-import io.restassured.RestAssured;
 import models.DashboardBody;
 import models.DashboardResponse;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Cookie;
 
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static helpers.CustomAllureListener.withCustomTemplates;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
+import static java.lang.String.format;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static specs.Specs.request;
 import static specs.Specs.responseSpec;
 
-public class DashboardApiTests {
-
-    @BeforeAll
-    static void setUp() {
-        Configuration.baseUrl = "https://allure.autotests.cloud";
-        Configuration.holdBrowserOpen = true;
-
-        RestAssured.baseURI = "https://allure.autotests.cloud";
-    }
+public class DashboardApiTests extends TestBase {
 
     @Test
     @DisplayName("Creating and deleting dashboard")
@@ -37,11 +31,6 @@ public class DashboardApiTests {
                 given(request)
                         .filter(withCustomTemplates())
                         .spec(request)
-                        .log().all()
-                        .header("X-XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34")
-                        .cookies("XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34",
-                                "ALLURE_TESTOPS_SESSION", "b378345b-7bf9-41fd-8cf7-a15551945520")
-                        .contentType("application/json;charset=UTF-8")
                         .body(dashboardBody)
                         .when()
                         .post("/api/rs/dashboard")
@@ -52,23 +41,28 @@ public class DashboardApiTests {
         step("Verify  dashboard`s name", () ->
                 assertThat(dashboardResponse.getName()).isEqualTo("name"));
 
+        int dashboardId = dashboardResponse.getId();
 
-               int dashboardId = dashboardResponse.getId();
+        open("/favicon.ico");
+        Cookie autorizationCookie = new Cookie("ALLURE_TESTOPS_SESSION", allureTestOpsSession);
+        getWebDriver().manage().addCookie(autorizationCookie);
+
+        String testCaseUrl = format("/project/%s/dashboards/%s", projectId, dashboardId);
+        open(testCaseUrl);
+
+        $(".ProjectDashboards__tabs").shouldHave((text("name")));
 
         step("Delete dashboard", () ->
                 given(request)
                         .filter(withCustomTemplates())
                         .spec(request)
-                        .log().all()
-                        .header("X-XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34")
-                        .cookies("XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34",
-                                "ALLURE_TESTOPS_SESSION", "b378345b-7bf9-41fd-8cf7-a15551945520")
-                        .contentType("application/json;charset=UTF-8")
                         .when()
                         .delete("/api/rs/dashboard/"+dashboardId)
                         .then()
                         .log().status()
                         .log().body()
                         .statusCode(202));
+
+
     }
 }

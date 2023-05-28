@@ -1,35 +1,22 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
-import com.github.javafaker.Faker;
-import io.restassured.RestAssured;
-
 import models.*;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Cookie;
 import specs.Specs;
 
-
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static helpers.CustomAllureListener.withCustomTemplates;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
 import static specs.Specs.responseSpec;
+import static java.lang.String.format;
 
-public class ChangeTestCaseTest {
-    static Faker faker = new Faker();
-    static String projectId = "2211";
-    static String testCaseName = faker.name().fullName();
-    static String newTestCaseName = faker.gameOfThrones().quote();
-
-    @BeforeAll
-    static void setUp() {
-        Configuration.baseUrl = "https://allure.autotests.cloud";
-        Configuration.holdBrowserOpen = true;
-
-        RestAssured.baseURI = "https://allure.autotests.cloud";
-    }
+public class ChangeTestCaseTest extends TestBase {
 
     @Test
     void createAndChangeTestCase() {
@@ -37,14 +24,11 @@ public class ChangeTestCaseTest {
         step("Create testcase", () -> {
 
             TestCaseBody caseBody = new TestCaseBody();
-            caseBody.setName(testCaseName);
+            caseBody.setName(CaseName);
 
             ResponseId responseId = given()
                     .filter(withCustomTemplates())
                     .spec(Specs.request)
-                    .header("X-XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34")
-                    .cookies("XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34",
-                            "ALLURE_TESTOPS_SESSION", "b378345b-7bf9-41fd-8cf7-a15551945520")
                     .body(caseBody)
                     .queryParam("projectId", projectId)
                     .when()
@@ -53,27 +37,32 @@ public class ChangeTestCaseTest {
                     .spec(responseSpec)
                     .extract().as(ResponseId.class);
 
-            step("Change the name of testcase", () -> {
+        step("Change the name of testcase", () -> {
 
-                int testCaseID = responseId.getId();
-                caseBody.setName(newTestCaseName);
+             int testCaseID = responseId.getId();
+             caseBody.setName(newTestCaseName);
 
-                ChangedTestCaseResponse changedTestCaseResponse = given()
-                        .filter(withCustomTemplates())
-                        .spec(Specs.request)
-                        .header("X-XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34")
-                        .cookies("XSRF-TOKEN", "379d4f4d-11b9-44b5-8afd-d2e2a6c06c34",
-                                "ALLURE_TESTOPS_SESSION", "b378345b-7bf9-41fd-8cf7-a15551945520")
-                        .body(caseBody)
-                        .queryParam("projectId", projectId)
-                        .queryParam("leafId", testCaseID)
-                        .when()
-                        .post("/api/rs/testcasetree/leaf/rename")
-                        .then()
-                        .extract().as(ChangedTestCaseResponse.class);
+             ChangedTestCaseResponse changedTestCaseResponse = given()
+                     .filter(withCustomTemplates())
+                     .spec(Specs.request)
+                     .body(caseBody)
+                     .queryParam("projectId", projectId)
+                     .queryParam("leafId", testCaseID)
+                     .when()
+                     .post("/api/rs/testcasetree/leaf/rename")
+                     .then()
+                     .extract().as(ChangedTestCaseResponse.class);
 
-                step("Verify that name is changed", () -> {
-                    assertThat(changedTestCaseResponse.getName()).isEqualTo(newTestCaseName);
+        step("Verify that name is changed", () -> {
+            open("/favicon.ico");
+            Cookie autorizationCookie = new Cookie("ALLURE_TESTOPS_SESSION", allureTestOpsSession);
+            getWebDriver().manage().addCookie(autorizationCookie);
+
+            String testCaseUrl = format("/project/%s/test-cases/%s", projectId, testCaseID);
+            open(testCaseUrl);
+
+            $(".TestCaseLayout__name").shouldHave(text(newTestCaseName));
+
                 });
             });
         });

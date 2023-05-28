@@ -1,26 +1,23 @@
 package config;
 
 import com.codeborne.selenide.Configuration;
+import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.Map;
 
 public class WebConfigForProject {
-    private final WebConfig webConfig;
+    public static WebConfig config = ConfigFactory.create(WebConfig.class, System.getProperties());
 
-    public WebConfigForProject(WebConfig webConfig) {
-        this.webConfig = webConfig;
-    }
+    public static void config() {
+        Configuration.browser = config.getBrowser();
+        Configuration.browserVersion = config.getBrowserVersion();
+        Configuration.browserSize = config.getBrowserSize();
+        Configuration.baseUrl = config.getBaseUrl();
+        Configuration.pageLoadStrategy = "eager";
 
-    public void webConfig() {
-        Configuration.baseUrl = webConfig.getBaseUrl();
-        Configuration.browser = webConfig.getBrowser().toString();
-        Configuration.browserVersion = webConfig.getBrowserVersion();
-        Configuration.browserSize = webConfig.getBrowserSize();
-
-        if (webConfig.isRemote()) {
-            Configuration.remote = webConfig.getRemoteUrl();
-
+        if (config.isRemote()) {
+            Configuration.remote = WebConfigForProject.config.getRemoteUrl();
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setCapability("selenoid:options", Map.<String, Object>of(
                     "enableVNC", true,

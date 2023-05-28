@@ -7,11 +7,18 @@ import io.restassured.specification.ResponseSpecification;
 import static io.restassured.RestAssured.with;
 import static io.restassured.filter.log.LogDetail.BODY;
 import static io.restassured.filter.log.LogDetail.STATUS;
+import static tests.TestBase.allureTestOpsSession;
+import static tests.TestBase.token;
 
 public class Specs {
+
     public static RequestSpecification request = with()
             .log().all()
-            .contentType("application/json;charset=UTF-8");
+            .contentType("application/json;charset=UTF-8")
+            .header("X-XSRF-TOKEN", token)
+            .cookies("XSRF-TOKEN", token,
+                            "ALLURE_TESTOPS_SESSION", allureTestOpsSession);
+
 
     public static ResponseSpecification responseSpec = new ResponseSpecBuilder()
             .log(STATUS)
