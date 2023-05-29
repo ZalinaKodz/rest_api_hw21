@@ -20,7 +20,7 @@ import static specs.Specs.responseSpec;
 public class DashboardApiTests extends TestBase {
 
     @Test
-    @DisplayName("Creating and deleting dashboard")
+    @DisplayName("Dashboard")
     void createUser() {
 
         DashboardBody dashboardBody = new DashboardBody();
@@ -62,7 +62,5 @@ public class DashboardApiTests extends TestBase {
                         .log().status()
                         .log().body()
                         .statusCode(202));
-
-
     }
 }

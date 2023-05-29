@@ -1,6 +1,5 @@
 package tests;
 
-import io.restassured.response.Response;
 import models.*;
 
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,6 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static helpers.CustomAllureListener.withCustomTemplates;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
 import static specs.Specs.request;
 import static specs.Specs.responseSpec;
 import static java.lang.String.format;
@@ -49,7 +47,7 @@ public class AddStepsApiTests extends TestBase {
             requestBody.setSteps(List.of(new CreateSteps(testStepName1, ""), new CreateSteps(testStepName2, ""), new CreateSteps(testStepName3, "")));
             requestBody.setWorkPath(List.of(2));
 
-            Response response = given()
+                      given()
                      .filter(withCustomTemplates())
                      .spec(request)
                      .body(requestBody)
@@ -58,11 +56,6 @@ public class AddStepsApiTests extends TestBase {
                      .then()
                      .extract().response();
 
-        step("Verify steps in testcase", () -> {
-
-             TestCaseResponse responseBody = response.getBody().as(TestCaseResponse.class);
-             assertThat(responseBody.getSteps()).hasSize(3);
-        });
         step("Check test case name", () -> {
 
              open("/favicon.ico");

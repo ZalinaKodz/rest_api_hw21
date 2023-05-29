@@ -25,7 +25,7 @@ public class TestBase {
 
 
     public static String projectId = "2211",
-            allureTestOpsSession = "0325d9a4-f6f3-4cca-a0b8-f0fe19d40536",
+            allureTestOpsSession = "b1b37ac1-ba73-4715-a836-cbb1fb5bf49e",
             token = "e96309d1-e0a7-428e-9155-f0f226a0ef7c";
 
     @BeforeAll
