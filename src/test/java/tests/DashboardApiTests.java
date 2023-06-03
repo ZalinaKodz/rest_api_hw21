@@ -38,7 +38,11 @@ public class DashboardApiTests extends TestBase {
 
         step("Verify  dashboard`s name", () ->
                 assertThat(dashboardResponse.getName()).isEqualTo("name"));
+
         int dashboardId = dashboardResponse.getId();
+
+        dashboardPage.openDashboard(projectId, dashboardId );
+        dashboardPage.checkDashboardTabs("name");
 
         step("Delete dashboard", () ->
                 given(request)
