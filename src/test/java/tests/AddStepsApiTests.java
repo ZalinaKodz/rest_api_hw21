@@ -3,22 +3,20 @@ package tests;
 import models.*;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Cookie;
+import pages.TestCasePage;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static helpers.CustomAllureListener.withCustomTemplates;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static specs.Specs.request;
 import static specs.Specs.responseSpec;
-import static java.lang.String.format;
+import static tests.TestData.projectId;
 
 import java.util.List;
 
 public class AddStepsApiTests extends TestBase {
+
+    TestCasePage testCasePage = new TestCasePage();
 
     @Test
     void createWitApiOnlyTest() {
@@ -57,49 +55,20 @@ public class AddStepsApiTests extends TestBase {
                      .extract().response();
 
         step("Check test case name", () -> {
-
-             open("/favicon.ico");
-             Cookie autorizationCookie = new Cookie("ALLURE_TESTOPS_SESSION", allureTestOpsSession);
-             getWebDriver().manage().addCookie(autorizationCookie);
-
-             String testCaseUrl = format("/project/%s/test-cases/%s", projectId, testCaseID);
-             open(testCaseUrl);
-
-             $(".TestCaseLayout__name").shouldHave(text(testCaseName));
-
+             testCasePage.openTestCaseEditor(projectId, testCaseID);
+             testCasePage.checkTestCaseName(testCaseName);
         });
         step("Check step 1", () -> {
-
-              open("/favicon.ico");
-              Cookie autorizationCookie = new Cookie("ALLURE_TESTOPS_SESSION", allureTestOpsSession);
-              getWebDriver().manage().addCookie(autorizationCookie);
-
-              String testCaseUrl = format("/project/%s/test-cases/%s", projectId, testCaseID);
-              open(testCaseUrl);
-
-              $(".Scenario").shouldHave(text(testStepName1));
+            testCasePage.openTestCaseEditor(projectId, testCaseID);
+            testCasePage.checkTestCaseStep(testStepName1);
         });
         step("Check step 2", () -> {
-
-               open("/favicon.ico");
-               Cookie autorizationCookie = new Cookie("ALLURE_TESTOPS_SESSION", allureTestOpsSession);
-               getWebDriver().manage().addCookie(autorizationCookie);
-
-               String testCaseUrl = format("/project/%s/test-cases/%s", projectId, testCaseID);
-               open(testCaseUrl);
-
-               $(".Scenario").shouldHave(text(testStepName2));
+            testCasePage.openTestCaseEditor(projectId, testCaseID);
+            testCasePage.checkTestCaseStep(testStepName2);
         });
         step("Check step 3", () -> {
-
-                open("/favicon.ico");
-                Cookie autorizationCookie = new Cookie("ALLURE_TESTOPS_SESSION", allureTestOpsSession);
-                getWebDriver().manage().addCookie(autorizationCookie);
-
-                String testCaseUrl = format("/project/%s/test-cases/%s", projectId, testCaseID);
-                open(testCaseUrl);
-
-                $(".Scenario").shouldHave(text(testStepName3));
+            testCasePage.openTestCaseEditor(projectId, testCaseID);
+            testCasePage.checkTestCaseStep(testStepName2);
                });
             });
         });

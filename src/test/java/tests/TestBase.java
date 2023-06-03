@@ -24,9 +24,6 @@ public class TestBase {
  String testStepName3 = faker.shakespeare().asYouLikeItQuote();
 
 
-    public static String projectId = "2211",
-            allureTestOpsSession = "e6b20b21-6a15-4931-9043-1e370e9befd8",
-            token = "e96309d1-e0a7-428e-9155-f0f226a0ef7c";
 
     @BeforeAll
     static void setUp() {

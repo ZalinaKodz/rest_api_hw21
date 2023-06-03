@@ -4,20 +4,18 @@ import models.DashboardBody;
 import models.DashboardResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Cookie;
+import pages.DashboardPage;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static helpers.CustomAllureListener.withCustomTemplates;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
-import static java.lang.String.format;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static specs.Specs.request;
 import static specs.Specs.responseSpec;
+import static tests.TestData.projectId;
 
 public class DashboardApiTests extends TestBase {
+    DashboardPage dashboardPage = new DashboardPage();
 
     @Test
     @DisplayName("Dashboard")
@@ -43,14 +41,9 @@ public class DashboardApiTests extends TestBase {
 
         int dashboardId = dashboardResponse.getId();
 
-        open("/favicon.ico");
-        Cookie autorizationCookie = new Cookie("ALLURE_TESTOPS_SESSION", allureTestOpsSession);
-        getWebDriver().manage().addCookie(autorizationCookie);
+        dashboardPage.openDashboard(projectId, dashboardId );
 
-        String testCaseUrl = format("/project/%s/dashboards/%s", projectId, dashboardId);
-        open(testCaseUrl);
-
-        $(".ProjectDashboards__tabs").shouldHave((text("name")));
+        dashboardPage.checkDashboardTabs("name");
 
         step("Delete dashboard", () ->
                 given(request)
