@@ -1,5 +1,6 @@
 package tests;
 
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.github.javafaker.Faker;
 import helpers.Attach;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static config.WebConfigForProject.config;
 
 
@@ -41,9 +41,9 @@ public class TestBase {
         Attach.screenshotAs("Last step screenshot");
         Attach.pageSource();
         Attach.browserConsoleLogs();
-        closeWebDriver();
         if (config.isRemote()) {
             Attach.addVideo();
         }
+        Selenide.closeWebDriver();
     }
 }
