@@ -51,6 +51,7 @@ public class ChangeTestCaseTest extends TestBase {
                      .extract().as(ChangedTestCaseResponse.class);
 
         step("Verify that name is changed", () -> {
+            testCasePage.openPage();
             testCasePage.openTestCaseEditor(projectId, testCaseID);
             testCasePage.checkTestCaseName(newTestCaseName);
 

@@ -10,6 +10,7 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static tests.TestData.allureTestopsSession;
 
 public class TestCasePage {
+    private final String LOGIN_URL = "/";
     private final SelenideElement
     testCaseName= $(".TestCaseLayout__name"),
     testCaseScenario = $(".Scenario");
@@ -17,6 +18,11 @@ public class TestCasePage {
 
     public TestCasePage checkTestCaseName(String value) {
         testCaseName.shouldHave(text(value));
+        return this;
+    }
+    public TestCasePage openPage() {
+        open(LOGIN_URL);
+
         return this;
     }
     public void openTestCaseEditor(String projectId, int testCaseId) {

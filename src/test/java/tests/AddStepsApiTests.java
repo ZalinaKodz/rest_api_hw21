@@ -55,6 +55,7 @@ public class AddStepsApiTests extends TestBase {
                      .extract().response();
 
         step("Check test case name", () -> {
+             testCasePage.openPage();
              testCasePage.openTestCaseEditor(projectId, testCaseID);
              testCasePage.checkTestCaseName(testCaseName);
         });

@@ -3,6 +3,6 @@ package tests;
 public class TestData {
     public static String
             projectId = "2211",
-            token = "95e98a43-b065-438a-bb07-cc99e8194b22",
-            allureTestopsSession = "a51d579f-781e-40ed-8a86-a030817aa961";
+            token = "fd6b8267-4b04-442e-b90e-889efded22f6",
+            allureTestopsSession = "d43d2657-9817-4f59-8164-2088677c3ea6";
 }
