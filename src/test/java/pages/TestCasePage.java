@@ -4,6 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Cookie;
 
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -12,8 +13,12 @@ import static tests.TestData.allureTestopsSession;
 public class TestCasePage {
     private final String LOGIN_URL = "/";
     private final SelenideElement
-    testCaseName= $(".TestCaseLayout__name"),
-    testCaseScenario = $(".Scenario");
+            testCaseName = $(".TestCaseLayout__name"),
+            testCaseScenario = $(".Scenario"),
+            editTestCaseMenu = $(".Menu__trigger"),
+            deleteItem = $(".Menu__item_danger "),
+            deleteText =  $(byText("Delete")),
+            submitDeleteButton = $(".TestCaseDeleteModal__confirm-button");
 
 
     public TestCasePage checkTestCaseName(String value) {
@@ -38,4 +43,12 @@ public class TestCasePage {
         return this;
     }
 
+    public TestCasePage deleteTestCase() {
+        editTestCaseMenu.click();
+        deleteText.click();
+        deleteItem.click();
+        submitDeleteButton.click();
+
+        return this;
+    }
 }

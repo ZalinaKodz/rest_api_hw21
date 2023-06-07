@@ -2,6 +2,7 @@ package tests;
 
 import models.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.TestCasePage;
 import specs.Specs;
@@ -16,6 +17,7 @@ public class ChangeTestCaseTest extends TestBase {
     TestCasePage testCasePage = new TestCasePage();
 
     @Test
+    @DisplayName("Change testcase name")
     void createAndChangeTestCase() {
 
         step("Create testcase", () -> {

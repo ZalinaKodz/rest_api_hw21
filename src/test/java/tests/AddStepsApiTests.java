@@ -2,6 +2,7 @@ package tests;
 
 import models.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.TestCasePage;
 
@@ -19,6 +20,7 @@ public class AddStepsApiTests extends TestBase {
     TestCasePage testCasePage = new TestCasePage();
 
     @Test
+    @DisplayName("Check steps of testcase, created by api")
     void createWitApiOnlyTest() {
 
         step("Create testcase", () -> {
@@ -70,8 +72,13 @@ public class AddStepsApiTests extends TestBase {
         step("Check step 3", () -> {
             testCasePage.openTestCaseEditor(projectId, testCaseID);
             testCasePage.checkTestCaseStep(testStepName2);
-               });
-            });
+        });
+        step("Delete testcase", () -> {
+                testCasePage.openTestCaseEditor(projectId, testCaseID);
+                testCasePage.deleteTestCase();
+        });
+        });
         });
     }
+
 }

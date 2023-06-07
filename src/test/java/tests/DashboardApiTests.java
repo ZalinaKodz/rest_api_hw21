@@ -12,18 +12,19 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static specs.Specs.request;
 import static specs.Specs.responseSpec;
+import static tests.TestData.dashboardName;
 import static tests.TestData.projectId;
 
 public class DashboardApiTests extends TestBase {
     DashboardPage dashboardPage = new DashboardPage();
 
     @Test
-    @DisplayName("Dashboard")
+    @DisplayName("Added new dashboard")
     void createUser() {
 
         DashboardBody dashboardBody = new DashboardBody();
         dashboardBody.setProjectId(2211);
-        dashboardBody.setName("name");
+        dashboardBody.setName(dashboardName);
 
         DashboardResponse dashboardResponse = step("Add dashboard", () ->
                 given(request)
@@ -37,12 +38,12 @@ public class DashboardApiTests extends TestBase {
                         .extract().as(DashboardResponse.class));
 
         step("Verify  dashboard`s name", () ->
-                assertThat(dashboardResponse.getName()).isEqualTo("name"));
+                assertThat(dashboardResponse.getName()).isEqualTo(dashboardName));
 
         int dashboardId = dashboardResponse.getId();
 
         dashboardPage.openDashboard(projectId, dashboardId );
-        dashboardPage.checkDashboardTabs("name");
+        dashboardPage.checkDashboardTabs(dashboardName);
 
         step("Delete dashboard", () ->
                 given(request)
