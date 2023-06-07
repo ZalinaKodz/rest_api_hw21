@@ -3,6 +3,7 @@ package tests;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.github.javafaker.Faker;
+import config.WebConfigForProject;
 import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
@@ -27,7 +28,7 @@ public class TestBase {
 
     @BeforeAll
     static void setUp() {
-        config();
+        WebConfigForProject.configure();
         RestAssured.baseURI = "https://allure.autotests.cloud";
     }
 

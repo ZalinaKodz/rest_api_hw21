@@ -9,7 +9,7 @@ import java.util.Map;
 public class WebConfigForProject {
     public static WebConfig config = ConfigFactory.create(WebConfig.class, System.getProperties());
 
-    public static void config() {
+    public static void configure() {
         Configuration.browser = config.getBrowser();
         Configuration.browserVersion = config.getBrowserVersion();
         Configuration.browserSize = config.getBrowserSize();
